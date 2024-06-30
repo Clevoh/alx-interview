@@ -2,6 +2,7 @@
 """
 This module contains a function to generate Pascal's Triangle.
 """
+
 def pascal_triangle(n):
     """
     Generate Pascal's triangle up to the nth row.
