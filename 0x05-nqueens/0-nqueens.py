@@ -7,7 +7,7 @@ import sys
 
 
 def checkNqueensArgs(args):
-    """Check for validity of argument of Nqueen
+    """Check for validity of arguement of Nqueen
     """
     if len(args) != 2:
         print("Usage: nqueens N")
@@ -17,11 +17,19 @@ def checkNqueensArgs(args):
         if N < 4:
             print("N must be at least 4")
             sys.exit(1)
-    except ValueError:
+    except Exception:
         print("N must be a number")
         sys.exit(1)
 
     return N
+
+
+def display_board(board):
+    """Print board of NxN
+    """
+    for row in board:
+        print(str(row).replace(',', '').replace('\'', ''))
+    print()
 
 
 def nQueens(board):
@@ -29,9 +37,12 @@ def nQueens(board):
     """
     res = []
     for i in range(len(board)):
+        temp = []
         for j in range(len(board)):
             if board[i][j] == 'Q':
-                res.append([i, j])
+                temp.append(i)
+                temp.append(j)
+        res.append(temp)
     print(res)
 
 
@@ -70,6 +81,8 @@ def chessBoard(board, row):
         nQueens(board)
         return
 
+    # place queen at every square in the current row `r`
+    # and recur for each valid movement
     for i in range(len(board)):
         # if no two queens threaten each other
         if isSafe(board, row, i):
@@ -79,7 +92,7 @@ def chessBoard(board, row):
             # recur for the next row
             chessBoard(board, row + 1)
 
-            #  backtrack and remove the queen from the current square
+            #  backtrack and remove the queen from the current square\
             board[row][i] = '*'
 
 
@@ -88,4 +101,3 @@ if __name__ == "__main__":
     # Create board
     board = [["*" for i in range(N)] for j in range(N)]
     chessBoard(board, 0)
-
