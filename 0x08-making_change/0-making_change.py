@@ -3,15 +3,16 @@
 Make change
 """
 
+
 def makeChange(coins, total):
-    """ 
+    """
     Determines the minimum number of coins needed
     to meet the given total amount using a greedy approach.
-    
+
     Args:
         - coins: List of the values of the coins you possess.
         - total: The amount of change required.
-        
+
     Returns:
         - The minimum number of coins needed to make the change,
           or -1 if the total cannot be met by any combination of coins.
@@ -36,4 +37,3 @@ def makeChange(coins, total):
         return -1
 
     return coins_needed
-
