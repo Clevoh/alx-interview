@@ -1,55 +1,57 @@
 #!/usr/bin/python3
-""" Prime Game Problem """
+"""Prime Game Problem"""
 
 
 def isWinner(x, nums):
-    """Function to get who has won in prime game"""
-    max_n = max(nums)
-    primes = generate_primes(max_n)
-
+    """Function that determines who has won"""
     mariaWinsCount = 0
     benWinsCount = 0
 
-    def determine_winner(n):
-        """Determine winner for a given value of n"""
-        if n < 2:
-            return "Ben"
+    for num in nums:
+        roundsSet = list(range(1, num + 1))
+        primesSet = primes_in_range(1, num)
 
-        is_prime_set = [True] * (n + 1)
-        num_of_primes = 0
-
-        for p in primes:
-            if p > n:
-                break
-            if is_prime_set[p]:
-                num_of_primes += 1
-                for multiple in range(p, n + 1, p):
-                    is_prime_set[multiple] = False
-
-        return "Maria" if num_of_primes % 2 == 1 else "Ben"
-
-        for n in nums:
-            winner = determine_winner(n)
-        if winner == "Maria":
-            mariaWinsCount += 1
-        else:
+        if not primesSet:
             benWinsCount += 1
+            continue
+
+        isMariaTurns = True
+
+        while(True):
+            if not primesSet:
+                if isMariaTurns:
+                    benWinsCount += 1
+                else:
+                    mariaWinsCount += 1
+                break
+
+            smallestPrime = primesSet.pop(0)
+            roundsSet.remove(smallestPrime)
+
+            roundsSet = [x for x in roundsSet if x % smallestPrime != 0]
+
+            isMariaTurns = not isMariaTurns
 
     if mariaWinsCount > benWinsCount:
         return "Winner: Maria"
-    elif benWinsCount > mariaWinsCount:
+
+    if mariaWinsCount < benWinsCount:
         return "Winner: Ben"
-    else:
-        return None
+
+    return None
 
 
-def generate_primes(max_n):
-    """Generate a list of prime numbers up to max_n"""
-    is_prime = [True] * (max_n + 1)
-    p = 2
-    while (p * p <= max_n):
-        if is_prime[p]:
-            for i in range(p * p, max_n + 1, p):
-                is_prime[i] = False
-        p += 1
-    return [p for p in range(2, max_n + 1) if is_prime[p]]
+def is_prime(n):
+    """Returns True if n is prime, else False."""
+    if n < 2:
+        return False
+    for i in range(2, int(n ** 0.5) + 1):
+        if n % i == 0:
+            return False
+    return True
+
+
+def primes_in_range(start, end):
+    """Returns a list of prime numbers."""
+    primes = [n for n in range(start, end+1) if is_prime(n)]
+    return primes
