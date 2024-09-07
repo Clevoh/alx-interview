@@ -54,3 +54,4 @@ def sieve_of_eratosthenes(limit):
                 sieve[multiple] = False
 
     return [num for num, is_prime in enumerate(sieve) if is_prime]
+
